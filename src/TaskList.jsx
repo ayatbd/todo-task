@@ -16,16 +16,29 @@ const TaskList = () => {
                 </div>
 
                 <table className="table text-white mb-0">
-                  <thead>
+                  <thead className="">
                     <tr>
+                      <th scope="col">Completed</th>
                       <th scope="col">Task</th>
                       <th scope="col">Priority</th>
-                      <th scope="col">Status</th>
                       <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="fw-normal">
+                      <td className="align-middle">
+                        <div className="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+                          <div className="form-check">
+                            <input
+                              className="form-check-input me-0"
+                              type="checkbox"
+                              value=""
+                              id="flexCheckChecked3"
+                              aria-label="..."
+                            />
+                          </div>
+                        </div>
+                      </td>
                       <td className="align-middle">
                         <span>Call Sam For payments</span>
                       </td>
@@ -33,9 +46,6 @@ const TaskList = () => {
                         <h6 className="mb-0">
                           <span className="badge bg-danger">High priority</span>
                         </h6>
-                      </td>
-                      <td className="align-middle">
-                        <h6 className="mb-0">High priority</h6>
                       </td>
                       <td className="align-middle">
                         <a href="#!" data-mdb-toggle="tooltip" title="Done">

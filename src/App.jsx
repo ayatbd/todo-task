@@ -1,6 +1,43 @@
+import { useState } from "react";
 import "./App.css";
 import TaskList from "./TaskList";
 const TodoSection = () => {
+  //Create state variables
+  const [taskName, setTaskName] = useState("");
+  const [taskPriority, setTaskPriority] = useState("Select task priority");
+
+  //Create event handlers
+  const handleTaskNameChange = (e) => {
+    setTaskName(e.target.value);
+  };
+
+  const handleTaskPriorityChange = (e) => {
+    setTaskPriority(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    //Save data to local storage
+    const newTask = {
+      id: new Date().getTime(),
+      name: taskName,
+      priority: taskPriority,
+    };
+
+    // Get existing tasks from local storage or initialize an empty array
+    const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    // Add the new task to the array
+    const updatedTasks = [...existingTasks, newTask];
+
+    // Save the updated array back to local storage
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+
+    // Optional: Clear the form fields after submission
+    setTaskName("");
+    setTaskPriority("Select task priority");
+  };
   return (
     <section className="vh-100">
       <div className="container py-5 h-100">
@@ -17,54 +54,35 @@ const TodoSection = () => {
                   <u>My Todo-s</u>
                 </p>
 
-                {/* <div className="pb-2">
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="d-flex flex-row align-items-center">
-                        <input
-                          type="text"
-                          className="form-control form-control-lg"
-                          id="exampleFormControlInput1"
-                          placeholder="Add new..."
-                        />
-                        <a
-                          href="#!"
-                          data-mdb-toggle="tooltip"
-                          title="Set due date"
-                        >
-                          <i className="fas fa-calendar-alt fa-lg me-3"></i>
-                        </a>
-                        <div>
-                          <button type="button" className="btn btn-primary">
-                            Add
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-                <form className="row g-3">
+                <form className="row g-3" onSubmit={handleSubmit}>
                   <div className="col-auto">
                     <input
                       type="text"
                       className="form-control form-control-lg"
                       id="exampleFormControlInput1"
                       placeholder="Task Name"
+                      value={taskName}
+                      onChange={handleTaskNameChange}
                     />
                   </div>
                   <div className="col-auto">
                     <select
-                      className="form-select form-control-lg"
+                      className="form-select form-select-lg"
                       aria-label="Default select example"
+                      value={taskPriority}
+                      onChange={handleTaskPriorityChange}
                     >
-                      <option selected>Select task priority</option>
+                      <option disabled>Select task priority</option>
                       <option value="1">Low</option>
                       <option value="2">Medium</option>
                       <option value="3">High</option>
                     </select>
                   </div>
                   <div className="col-auto">
-                    <button type="submit" className="btn btn-primary mb-3">
+                    <button
+                      className="btn btn-primary mb-3 btn-lg"
+                      type="submit"
+                    >
                       Confirm identity
                     </button>
                   </div>
