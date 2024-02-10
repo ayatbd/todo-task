@@ -68,13 +68,14 @@ const TodoSection = () => {
                   </div>
                   <div className="col-auto">
                     <select
-                      required
                       className="form-select form-select-lg"
                       aria-label="Default select example"
                       value={taskPriority}
                       onChange={handleTaskPriorityChange}
                     >
-                      <option disabled>Select task priority</option>
+                      <option disabled selected>
+                        Select task priority
+                      </option>
                       <option value="Low">Low</option>
                       <option value="Medium">Medium</option>
                       <option value="High">High</option>
@@ -95,14 +96,9 @@ const TodoSection = () => {
                   <p className="small mb-0 me-2 text-muted">Filter</p>
                   <select className="select">
                     <option value="1">All</option>
-                    <option value="2">Completed</option>
-                    <option value="3">Active</option>
-                    <option value="4">Has due date</option>
-                  </select>
-                  <p className="small mb-0 ms-4 me-2 text-muted">Sort</p>
-                  <select className="select">
-                    <option value="1">Added date</option>
-                    <option value="2">Due date</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
                   </select>
                   <a
                     href="#!"

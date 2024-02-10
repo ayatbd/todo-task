@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { MdEdit } from "react-icons/md";
 
 const TaskList = () => {
   //Create state variable to store tasks
@@ -9,6 +11,15 @@ const TaskList = () => {
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     setTasks(storedTasks);
   }, []);
+
+  const handleDelete = (index) => {
+    // Remove the task from the tasks array
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+
+    // Save the updated tasks to local storage
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
   return (
     <section className="vh-100 gradient-custom-2">
       <div className="container py-5 h-100">
@@ -57,7 +68,7 @@ const TaskList = () => {
                           <h6 className="mb-0">
                             <span
                               className={`badge ${
-                                (task.priority === "High" && "bg - danger") ||
+                                (task.priority === "High" && "bg-danger") ||
                                 (task.priority === "Medium" && "bg-warning") ||
                                 (task.priority === "Low" && "bg-success")
                               }`}
@@ -67,12 +78,19 @@ const TaskList = () => {
                           </h6>
                         </td>
                         <td className="align-middle">
-                          <a href="#!" data-mdb-toggle="tooltip" title="Done">
-                            <i className="fas fa-check fa-lg text-success me-3"></i>
-                          </a>
-                          <a href="#!" data-mdb-toggle="tooltip" title="Remove">
-                            <i className="fas fa-trash-alt fa-lg text-warning"></i>
-                          </a>
+                          <span
+                            className="text-info me-3"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <MdEdit size="20" />
+                          </span>
+                          <span
+                            className="text-warning"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleDelete(index)}
+                          >
+                            <RiDeleteBin6Line size="20" />
+                          </span>
                         </td>
                       </tr>
                     ))}
