@@ -57,6 +57,7 @@ const TodoSection = () => {
                 <form className="row g-3" onSubmit={handleSubmit}>
                   <div className="col-auto">
                     <input
+                      required
                       type="text"
                       className="form-control form-control-lg"
                       id="exampleFormControlInput1"
@@ -67,15 +68,16 @@ const TodoSection = () => {
                   </div>
                   <div className="col-auto">
                     <select
+                      required
                       className="form-select form-select-lg"
                       aria-label="Default select example"
                       value={taskPriority}
                       onChange={handleTaskPriorityChange}
                     >
                       <option disabled>Select task priority</option>
-                      <option value="1">Low</option>
-                      <option value="2">Medium</option>
-                      <option value="3">High</option>
+                      <option value="Low">Low</option>
+                      <option value="Medium">Medium</option>
+                      <option value="High">High</option>
                     </select>
                   </div>
                   <div className="col-auto">

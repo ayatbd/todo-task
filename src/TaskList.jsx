@@ -1,4 +1,14 @@
+import { useEffect, useState } from "react";
+
 const TaskList = () => {
+  //Create state variable to store tasks
+  const [tasks, setTasks] = useState([]);
+
+  //Use useEffect to fetch tasks from local storage
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    setTasks(storedTasks);
+  }, []);
   return (
     <section className="vh-100 gradient-custom-2">
       <div className="container py-5 h-100">
@@ -25,37 +35,47 @@ const TaskList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="fw-normal">
-                      <td className="align-middle">
-                        <div className="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input me-0"
-                              type="checkbox"
-                              value=""
-                              id="flexCheckChecked3"
-                              aria-label="..."
-                            />
+                    {tasks.map((task, index) => (
+                      <tr className="fw-normal" key={index}>
+                        <td className="align-middle">
+                          <div className="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input me-0"
+                                type="checkbox"
+                                value=""
+                                id={`flexCheckChecked${index}`}
+                                aria-label="..."
+                              />
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="align-middle">
-                        <span>Call Sam For payments</span>
-                      </td>
-                      <td className="align-middle">
-                        <h6 className="mb-0">
-                          <span className="badge bg-danger">High priority</span>
-                        </h6>
-                      </td>
-                      <td className="align-middle">
-                        <a href="#!" data-mdb-toggle="tooltip" title="Done">
-                          <i className="fas fa-check fa-lg text-success me-3"></i>
-                        </a>
-                        <a href="#!" data-mdb-toggle="tooltip" title="Remove">
-                          <i className="fas fa-trash-alt fa-lg text-warning"></i>
-                        </a>
-                      </td>
-                    </tr>
+                        </td>
+                        <td className="align-middle">
+                          <span>{task.name}</span>
+                        </td>
+                        <td className="align-middle">
+                          <h6 className="mb-0">
+                            <span
+                              className={`badge ${
+                                (task.priority === "High" && "bg - danger") ||
+                                (task.priority === "Medium" && "bg-warning") ||
+                                (task.priority === "Low" && "bg-success")
+                              }`}
+                            >
+                              {task.priority}
+                            </span>
+                          </h6>
+                        </td>
+                        <td className="align-middle">
+                          <a href="#!" data-mdb-toggle="tooltip" title="Done">
+                            <i className="fas fa-check fa-lg text-success me-3"></i>
+                          </a>
+                          <a href="#!" data-mdb-toggle="tooltip" title="Remove">
+                            <i className="fas fa-trash-alt fa-lg text-warning"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
