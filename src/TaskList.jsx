@@ -1,16 +1,18 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
 
-const TaskList = () => {
+const TaskList = ({ handleSubmit }) => {
   //Create state variable to store tasks
   const [tasks, setTasks] = useState([]);
+  const [sortingOption, setSortingOption] = useState("All");
 
   //Use useEffect to fetch tasks from local storage
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     setTasks(storedTasks);
-  }, []);
+  }, [handleSubmit]);
 
   const handleDelete = (index) => {
     // Remove the task from the tasks array
@@ -19,6 +21,23 @@ const TaskList = () => {
 
     // Save the updated tasks to local storage
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
+
+  const handleSort = (option) => {
+    setSortingOption(option);
+  };
+
+  const getSortedTasks = () => {
+    switch (sortingOption) {
+      case "High":
+        return tasks.filter((task) => task.priority === "High");
+      case "Medium":
+        return tasks.filter((task) => task.priority === "Medium");
+      case "Low":
+        return tasks.filter((task) => task.priority === "Low");
+      default:
+        return tasks;
+    }
   };
   return (
     <section className="vh-100 gradient-custom-2">
@@ -35,6 +54,18 @@ const TaskList = () => {
                   />
                   <h2 className="my-4 text-dark">Task List</h2>
                 </div>
+                <div className="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
+                  <p className="small mb-0 me-2 text-white">Filter</p>
+                  <select
+                    className="select"
+                    onChange={(e) => handleSort(e.target.value)}
+                  >
+                    <option value="All">All</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
 
                 <table className="table text-white mb-0">
                   <thead className="">
@@ -46,7 +77,7 @@ const TaskList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tasks.map((task, index) => (
+                    {getSortedTasks().map((task, index) => (
                       <tr className="fw-normal" key={index}>
                         <td className="align-middle">
                           <div className="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
@@ -54,8 +85,6 @@ const TaskList = () => {
                               <input
                                 className="form-check-input me-0"
                                 type="checkbox"
-                                value=""
-                                id={`flexCheckChecked${index}`}
                                 aria-label="..."
                               />
                             </div>

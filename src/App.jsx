@@ -38,6 +38,9 @@ const TodoSection = () => {
     setTaskName("");
     setTaskPriority("Select task priority");
   };
+
+  // Function to handle sorting
+
   return (
     <section className="vh-100">
       <div className="container py-5 h-100">
@@ -92,25 +95,7 @@ const TodoSection = () => {
                 </form>
                 <hr className="my-4" />
 
-                <div className="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
-                  <p className="small mb-0 me-2 text-muted">Filter</p>
-                  <select className="select">
-                    <option value="1">All</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
-                  </select>
-                  <a
-                    href="#!"
-                    style={{ color: "#23af89" }}
-                    data-mdb-toggle="tooltip"
-                    title="Ascending"
-                  >
-                    <i className="fas fa-sort-amount-down-alt ms-2"></i>
-                  </a>
-                </div>
-
-                <TaskList />
+                <TaskList handleSubmit={handleSubmit} />
               </div>
             </div>
           </div>
