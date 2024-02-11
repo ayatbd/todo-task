@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const TaskList = ({ handleSubmit }) => {
   //Create state variable to store tasks
@@ -15,6 +16,16 @@ const TaskList = ({ handleSubmit }) => {
   }, [handleSubmit]);
 
   const handleDelete = (index) => {
+    toast.warn("The task is deleted", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
     // Remove the task from the tasks array
     const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
@@ -39,6 +50,22 @@ const TaskList = ({ handleSubmit }) => {
         return tasks;
     }
   };
+
+  const handleToggleCompletion = (index) => {
+    const updatedTasks = tasks.map((task, i) => {
+      if (i === index) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+
+    setTasks(updatedTasks);
+    updateLocalStorage(updatedTasks);
+  };
+
+  const updateLocalStorage = (updatedTasks) => {
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
   return (
     <section className="vh-100 gradient-custom-2">
       <div className="container py-5 h-100">
@@ -46,13 +73,9 @@ const TaskList = ({ handleSubmit }) => {
           <div className="col-md-12 col-xl-10">
             <div className="card mask-custom">
               <div className="card-body p-4 text-white">
-                <div className="text-center pt-3 pb-2">
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-todo-list/check1.webp"
-                    alt="Check"
-                    width="60"
-                  />
-                  <h2 className="my-4 text-dark">Task List</h2>
+                <div className="text-center pt-2 pb-2">
+                  <h2 className="my-3 text-white">Task List</h2>
+                  <h5 className="text-white">Total Tasks: {tasks.length}</h5>
                 </div>
                 <div className="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
                   <p className="small mb-0 me-2 text-white">Filter</p>
@@ -86,6 +109,8 @@ const TaskList = ({ handleSubmit }) => {
                                 className="form-check-input me-0"
                                 type="checkbox"
                                 aria-label="..."
+                                checked={task.completed}
+                                onChange={() => handleToggleCompletion(index)}
                               />
                             </div>
                           </div>
